@@ -48,7 +48,12 @@
             <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
             <version>4.0.0-RC1</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.14</version>
+        </dependency>
         <!-- <dependency>
             <groupId>io.shardingjdbc</groupId>
             <artifactId>sharding-jdbc-spring-boot-starter</artifactId>

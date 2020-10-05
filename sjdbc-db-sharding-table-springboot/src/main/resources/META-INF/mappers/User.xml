@@ -17,6 +17,20 @@
         #{name,jdbcType=VARCHAR}
         )
     </insert>
+
+    <insert id="batchAddUser" parameterType="java.util.List">
+        INSERT INTO user (
+           city, name,id
+        )
+        VALUES
+        <trim suffixOverrides=",">
+        <foreach collection="list" item="item" open="" close="" separator=",">
+            (#{item.city,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR},
+            #{item.id,jdbcType=VARCHAR})
+        </foreach>
+        </trim>
+    </insert>
    
     <select id="list" resultMap="baseResultMap">
         SELECT u.* FROM user u
@@ -29,5 +43,33 @@
     <select id="findByName" resultMap="baseResultMap">
         SELECT u.* FROM user u WHERE u.name=#{name,jdbcType=VARCHAR}
     </select>
+    <update id="batchUpdate" parameterType="java.util.List">
+        update user
+        <trim suffixOverrides=",">
+            set city =case
+            <trim suffix="end,">
+                <foreach collection="list" item="item" >
+                    when id=#{item.id} then #{item.city}
+                </foreach>
+            </trim>
+            name =case
+                <trim suffix="end,">
+                    <foreach collection="list" item="item" >
+                        when id=#{item.id} then #{item.name}
+                    </foreach>
+                </trim>
+        </trim>
+        where id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+             #{item.id}
+        </foreach>
+        and id=30
+    </update>
+
+    <update id="batchUpdate2" parameterType="java.util.List">
+        <foreach collection="list" item="item" open="" close="" separator=";">
+            update user set city=#{item.city},name=#{item.name} where id=#{item.id}
+        </foreach>
+    </update>
     
 </mapper>
